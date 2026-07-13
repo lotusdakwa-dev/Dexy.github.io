@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ module.label }}{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <p>Liste des {{ module.label|lower }} enregistrés.</p>
+    {% if module.form %}
+        <a class="btn" href="{% url 'ajouter_donnees' module_name %}">➕ Ajouter {{ module.titre }}</a>
+    {% endif %}
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            {% for header in headers %}
+                <th>{{ header }}</th>
+            {% endfor %}
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr>
+                {% for value in row.values %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+                <td>
+                    {% if module.form %}
+                        <a class="action-link" href="{% url 'modifier_donnees' module_name row.pk %}">✏️ Éditer</a>
+                    {% endif %}
+                    <a class="action-link danger" href="{% url 'supprimer_donnees' module_name row.pk %}">🗑️ Supprimer</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="{{ headers|length|add:1 }}">Aucun enregistrement trouvé.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

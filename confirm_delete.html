@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h1>Confirmer la suppression</h1>
+    <p>Vous êtes sur le point de supprimer <strong>{{ object }}</strong>. Cette action est irréversible.</p>
+    <form method="POST" class="form-card">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn">Supprimer définitivement</button>
+            <a href="{% url redirect_url module_name %}" class="btn btn-muted">Retour</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,93 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <div>
+        <h1>Tableau de bord</h1>
+        <p>Bienvenue dans GestEcole — suivez les indicateurs clés et accédez rapidement aux modules.</p>
+    </div>
+    <a class="btn" href="{% url 'dashboard' %}">Actualiser</a>
+</div>
+
+<div class="dashboard-grid" style="margin-top: 1.75rem;">
+    {% for module in modules %}
+    <a href="{% url module.route module.module_name %}" class="panel quick-card {{ module.accent }}">
+        <div>
+            <span class="quick-card-badge">{{ module.icon }}</span>
+            <h3>{{ module.label }}</h3>
+            <p>{{ module.count }} éléments</p>
+        </div>
+        <span class="btn">Ouvrir</span>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="dashboard-grid summary-grid" style="margin-top: 1.75rem;">
+    <div class="panel summary-panel">
+        <h2>Élèves par genre</h2>
+        <ul class="summary-list">
+            {% for label, count in eleves_par_genre.items %}
+            <li>{{ label }} : <strong>{{ count }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="panel summary-panel">
+        <h2>Inscriptions par classe</h2>
+        <ul class="summary-list">
+            {% for item in inscriptions_by_classe %}
+            <li>{{ item.classe__nom_classe }} : <strong>{{ item.total }}</strong></li>
+            {% empty %}
+            <li>Aucune inscription</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="panel summary-panel">
+        <h2>Frais par année</h2>
+        <ul class="summary-list">
+            {% for item in frais_by_annee %}
+            <li>{{ item.annee_scolaire__libelle }} : <strong>{{ item.total }}</strong></li>
+            {% empty %}
+            <li>Aucun frais</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="bottom-cards" style="margin-top: 2rem;">
+    <div class="panel bottom-card">
+        <div class="bottom-card-header">
+            <div>
+                <h3>Historique</h3>
+                <p>Un accès clair aux données historiques et aux tendances récentes.</p>
+            </div>
+            <a class="btn" href="{% url 'historique' %}">Ouvrir</a>
+        </div>
+        <div class="bottom-card-body">
+            <span class="bottom-card-value">{{ total_records }}</span>
+            <p class="bottom-card-note">Total d’enregistrements</p>
+        </div>
+    </div>
+
+    <div class="panel bottom-card">
+        <div class="bottom-card-header">
+            <div>
+                <h3>Répartition par module</h3>
+                <p>Visualisez l’équilibre des modules en un clin d’œil.</p>
+            </div>
+            <a class="btn" href="{% url 'repartition' %}">Ouvrir</a>
+        </div>
+        <div class="bottom-card-body">
+            {% for module in modules|slice:":4" %}
+            <div class="mini-card-row">
+                <span>{{ module.label }}</span>
+                <strong>{{ module.percent }}%</strong>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

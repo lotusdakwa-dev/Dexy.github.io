@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Horaires{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <p>Planning des cours par classe et matière.</p>
+    <a class="btn" href="{% url 'ajouter_donnees' 'horaires' %}">➕ Ajouter un horaire</a>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr><th>Jour</th><th>Classe</th><th>Matière</th><th>Professeur</th><th>Heure</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for horaire in horaires %}
+        <tr>
+            <td>{{ horaire.get_jour_semaine_display }}</td>
+            <td>{{ horaire.classe.nom_classe }}</td>
+            <td>{{ horaire.matiere.libelle }}</td>
+            <td>{{ horaire.professeur }}</td>
+            <td>{{ horaire.heure_debut|time:'H:i' }} - {{ horaire.heure_fin|time:'H:i' }}</td>
+            <td>
+                <a class="action-link" href="{% url 'modifier_donnees' 'horaires' horaire.pk %}">✏️ Éditer</a>
+                <a class="action-link danger" href="{% url 'supprimer_donnees' 'horaires' horaire.pk %}">🗑️ Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">Aucun horaire défini.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
