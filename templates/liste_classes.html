@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Classes{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <p>Liste des classes et options scolaires.</p>
+    <a href="{% url 'ajouter_donnees' 'classes' %}" class="btn">➕ Ajouter une classe</a>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr><th>Classe</th><th>Option</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for classe in classes %}
+        <tr>
+            <td>{{ classe.nom_classe }}</td>
+            <td>{{ classe.option_scolaire.nom_option }}</td>
+            <td>
+                <a class="action-link" href="{% url 'modifier_donnees' 'classes' classe.pk %}">✏️ Éditer</a>
+                <a class="action-link danger" href="{% url 'supprimer_donnees' 'classes' classe.pk %}">🗑️ Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Aucune classe définie.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

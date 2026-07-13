@@ -1,0 +1,40 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Connexion | GestEcole{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid login-grid">
+    <div class="panel login-panel">
+        <h1>Connexion</h1>
+        <p>Connectez-vous pour accéder à votre espace de gestion scolaire.</p>
+
+        {% if form.errors %}
+            <div class="toast danger">Identifiant ou mot de passe incorrect. Veuillez réessayer.</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+
+            <label for="id_username">Nom d'utilisateur</label>
+            <input type="text" name="username" id="id_username" class="form-control" placeholder="Nom d'utilisateur" required autofocus>
+
+            <label for="id_password">Mot de passe</label>
+            <input type="password" name="password" id="id_password" class="form-control" placeholder="Mot de passe" required>
+
+            <button type="submit" class="btn">Se connecter</button>
+
+            <p class="login-help">Pas de compte ? Contactez l'administrateur de l'école.</p>
+        </form>
+    </div>
+
+    <div class="panel login-info">
+        <h2>Bienvenue sur GestEcole</h2>
+        <p>Plateforme centrale pour piloter écoles, inscriptions, notes, horaires et frais scolaires.</p>
+        <ul class="feature-list">
+            <li>Interface claire et moderne</li>
+            <li>Accès sécurisé aux données</li>
+            <li>Navigation rapide entre modules</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

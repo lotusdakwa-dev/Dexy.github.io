@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Répartition des modules{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <div>
+        <h1>Répartition des modules</h1>
+        <p>Analyse de la distribution des enregistrements par module.</p>
+    </div>
+    <a class="btn" href="{% url 'dashboard' %}">Retour au dashboard</a>
+</div>
+
+<div class="panel" style="margin-top: 1.5rem;">
+    <h2>Distribution par module</h2>
+    <div class="module-chart">
+        {% for module in modules %}
+        <div class="chart-row">
+            <div class="chart-label">
+                <span>{{ module.label }}</span>
+                <strong>{{ module.count }}</strong>
+            </div>
+            <div class="chart-track">
+                <div class="chart-fill" style="width: {{ module.percent }}%;"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="panel" style="margin-top: 1.5rem;">
+    <h2>Détails des modules</h2>
+    <table class="data-table">
+        <thead>
+            <tr><th>Module</th><th>Nombre</th><th>Part</th></tr>
+        </thead>
+        <tbody>
+            {% for module in modules %}
+            <tr>
+                <td>{{ module.label }}</td>
+                <td>{{ module.count }}</td>
+                <td>{{ module.percent }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

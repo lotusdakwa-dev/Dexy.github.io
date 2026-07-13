@@ -1,0 +1,32 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Frais scolaires{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <p>Suivi des frais scolaires par classe.</p>
+    <a class="btn" href="{% url 'ajouter_donnees' 'frais' %}">➕ Configurer des frais</a>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr><th>Libellé</th><th>Classe</th><th>Année</th><th>Montant</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for frais in frais %}
+        <tr>
+            <td>{{ frais.libelle_frais }}</td>
+            <td>{{ frais.classe.nom_classe }}</td>
+            <td>{{ frais.annee_scolaire.libelle }}</td>
+            <td>{{ frais.montant_total }} {{ frais.devise }}</td>
+            <td>
+                <a class="action-link" href="{% url 'modifier_donnees' 'frais' frais.pk %}">✏️ Éditer</a>
+                <a class="action-link danger" href="{% url 'supprimer_donnees' 'frais' frais.pk %}">🗑️ Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">Aucun frais enregistré.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

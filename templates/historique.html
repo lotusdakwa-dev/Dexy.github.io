@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Historique{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <div>
+        <h1>Historique des modules</h1>
+        <p>Visualisation détaillée de l’évolution des données et des volumes.</p>
+    </div>
+    <a class="btn" href="{% url 'dashboard' %}">Retour au dashboard</a>
+</div>
+
+<div class="panel" style="margin-top: 1.5rem;">
+    <h2>Résumé</h2>
+    <div class="history-summary-panel">
+        <div>
+            <p>Total d’enregistrements</p>
+            <strong>{{ total_records }}</strong>
+        </div>
+        <div>
+            <p>Modules suivis</p>
+            <strong>{{ modules|length }}</strong>
+        </div>
+    </div>
+</div>
+
+<div class="panel" style="margin-top: 1.5rem;">
+    <h2>Évolution par module</h2>
+    <div class="trend-list">
+        {% for item in trend_data %}
+        <div class="trend-item">
+            <div class="trend-meta">
+                <span>{{ item.label }}</span>
+                <strong>{{ item.count }}</strong>
+            </div>
+            <div class="trend-bar">
+                <div class="trend-bar-fill" style="width: {{ item.percent }}%"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="panel" style="margin-top: 1.5rem;">
+    <h2>Statistiques détaillées</h2>
+    <table class="data-table">
+        <thead>
+            <tr><th>Module</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+            {% for label, val in stats.items %}
+            <tr><td>{{ label }}</td><td>{{ val }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

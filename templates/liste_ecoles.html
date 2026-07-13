@@ -1,0 +1,31 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Écoles{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <p>Liste des écoles enregistrées.</p>
+    <a class="btn" href="{% url 'ajouter_donnees' 'ecoles' %}">➕ Ajouter une école</a>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr><th>Nom</th><th>Code national</th><th>Adresse</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+        {% for ecole in ecoles %}
+        <tr>
+            <td>{{ ecole.nom_ecole }}</td>
+            <td>{{ ecole.code_national }}</td>
+            <td>{{ ecole.adresse }}</td>
+            <td>
+                <a class="action-link" href="{% url 'modifier_donnees' 'ecoles' ecole.pk %}">✏️ Éditer</a>
+                <a class="action-link danger" href="{% url 'supprimer_donnees' 'ecoles' ecole.pk %}">🗑️ Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">Aucune école trouvée.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
